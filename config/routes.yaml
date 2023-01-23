@@ -1,0 +1,3 @@
+external_request:
+  path: /external
+  controller: App\Controller\ExternalController::requestExternalService
