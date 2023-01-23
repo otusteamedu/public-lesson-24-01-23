@@ -33,3 +33,10 @@ services:
       - '2024:2024'
       - '8125:8125/udp'
       - '8126:8126'
+
+  grafana:
+    image: grafana/grafana
+    container_name: 'grafana'
+    restart: always
+    ports:
+      - 3000:3000
