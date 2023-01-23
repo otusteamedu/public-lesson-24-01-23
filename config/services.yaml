@@ -22,3 +22,13 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Client\StatsdClient:
+        arguments:
+            - graphite
+            - 8125
+            - my_app
+
+    App\Manager\SuccessMetricsManager:
+        arguments:
+            $metricName: external_request

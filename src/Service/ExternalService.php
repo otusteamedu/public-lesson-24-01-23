@@ -2,11 +2,17 @@
 
 namespace App\Service;
 
+use App\Manager\SuccessMetricsManagerInterface;
 use Exception;
 
 class ExternalService
 {
     private const SUCCESSFUL_RATE = 50;
+
+    public function __construct(
+        private readonly SuccessMetricsManagerInterface $successMetricsManager
+    ) {
+    }
 
     /**
      * @throws Exception
@@ -32,8 +38,10 @@ class ExternalService
         while ($count-- > 0) {
             try {
                 $result[$startId] = $this->getName($startId);
+                $this->successMetricsManager->logSuccess();
             } catch (Exception) {
                 // log exception
+                $this->successMetricsManager->logFail();
             }
             $startId++;
         }
