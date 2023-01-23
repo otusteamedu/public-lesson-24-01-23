@@ -15,9 +15,6 @@ class ExternalController extends AbstractController
     ) {
     }
 
-    /**
-     * @throws Exception
-     */
     public function requestExternalService(Request $request): Response
     {
         $externalEntityId = $request->query->get('id');
@@ -27,9 +24,15 @@ class ExternalController extends AbstractController
             return new Response(null, Response::HTTP_BAD_REQUEST);
         }
 
+        $result = $this->externalService->getMultipleNames((int)$externalEntityId, (int)$count);
+
         return new Response(implode(
             '; ',
-            $this->externalService->getMultipleNames((int)$externalEntityId, (int)$count),
+            array_map(
+                static fn (int $id, string $name): string => $id.': '.$name,
+                array_keys($result),
+                array_values($result),
+            )
         ));
     }
 }

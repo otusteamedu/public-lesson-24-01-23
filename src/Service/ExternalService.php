@@ -23,15 +23,19 @@ class ExternalService
     }
 
     /**
-     * @return string[]
-     * @throws Exception
+     * @return array<int,string>
      */
     public function getMultipleNames(int $startId, int $count): array
     {
         $result = [];
 
         while ($count-- > 0) {
-            $result[] = $this->getName($startId++);
+            try {
+                $result[$startId] = $this->getName($startId);
+            } catch (Exception) {
+                // log exception
+            }
+            $startId++;
         }
 
         return $result;
