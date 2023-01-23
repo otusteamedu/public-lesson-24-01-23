@@ -21,4 +21,19 @@ class ExternalService
 
         return 'External Entity '.$externalEntityId;
     }
+
+    /**
+     * @return string[]
+     * @throws Exception
+     */
+    public function getMultipleNames(int $startId, int $count): array
+    {
+        $result = [];
+
+        while ($count-- > 0) {
+            $result[] = $this->getName($startId++);
+        }
+
+        return $result;
+    }
 }
